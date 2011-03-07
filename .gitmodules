@@ -55,9 +55,6 @@
 [submodule "bundle/taglist.vim"]
 	path = bundle/taglist.vim
 	url = https://github.com/vim-scripts/taglist.vim.git
-[submodule "vim-ragtag"]
-	path = vim-ragtag
-	url = https://github.com/tpope/vim-ragtag.git
 [submodule "bundle/fuzzyfinder-pathogen"]
 	path = bundle/fuzzyfinder-pathogen
 	url = https://github.com/hlouis/FuzzyFinder.git
