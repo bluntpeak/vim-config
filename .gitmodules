@@ -1,3 +1,6 @@
+[submodule "vim-pathogen"]
+	path = vim-pathogen
+	url = https://github.com/tpope/vim-pathogen.git
 [submodule "bundle/awk.vim"]
 	path = bundle/awk.vim
 	url = http://github.com/mileszs/ack.vim.git
