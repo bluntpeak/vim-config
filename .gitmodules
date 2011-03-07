@@ -67,3 +67,6 @@
 [submodule "bundle/bluntpeak-vim-colors"]
 	path = bundle/bluntpeak-vim-colors
 	url = git://github.com/bluntpeak/bluntpeak-vim-colors.git
+[submodule "vim-update-bundles"]
+	path = vim-update-bundles
+	url = git://github.com/bronson/vim-update-bundles.git
