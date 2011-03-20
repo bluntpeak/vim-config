@@ -107,6 +107,7 @@ imap <C-Z> <C-O>u
 
 " map for invoking FuzzyFinder in various modes
 map <silent> <Leader>/ :FufFile **/<CR>
+map <silent> <Leader>. :FufBuffer<CR>
 
 " map to toggle line wrap
 map <silent> <Leader>w :set wrap!<CR>
@@ -148,7 +149,6 @@ map <space>n <c-W>w
 map <space><space> <c-W>w<c-W>_
 map <space>= <c-W>=
 map + <c-W>+
-map = <c-w>+
 map - <c-W>-
 map <space>c <c-w>c
 
