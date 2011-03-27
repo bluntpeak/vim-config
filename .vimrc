@@ -248,3 +248,18 @@ au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
 " turn on menu completions in style
 set wildmenu
 set wildmode=full
+
+map ;; :call RunCurrentSpec("-l " . <C-r>=line('.')<CR>)<CR>
+map ;' :call RunCurrentSpec("")<CR>
+map <leader>; :call RunSpecs("spec/cells spec/models spec/routing spec/requests spec/controllers")<CR>
+map <leader>' :call RunSpecs("spec/acceptance")<CR>
+
+function! RunSpecs(args)
+  let cmd = ":! rspec " . a:args
+  execute cmd 
+endfunction
+
+function! RunCurrentSpec(args)
+  let cmd = ":! rspec " . "% " . a:args
+  execute cmd 
+endfunction
