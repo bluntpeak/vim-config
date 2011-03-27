@@ -238,9 +238,9 @@ au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
 " map <F8> g<C-g>
 
 
-if has("linebreak")
-  let &sbr = nr2char(8618).' '  " helps to spot wrapped lines
-endif
+" if has("linebreak")
+"   let &sbr = nr2char(8618).' '  " helps to spot wrapped lines
+" endif
 
 au InsertEnter * hi StatusLine term=reverse ctermbg=5 gui=undercurl guisp=Magenta
 au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
