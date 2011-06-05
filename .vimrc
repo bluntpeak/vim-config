@@ -219,8 +219,8 @@ command! -nargs=0 Lorem :normal iLorem ipsum dolor sit amet, consectetur
 
 " auto reload vimrc when saved
 au BufWritePost .vimrc source %
-
-set statusline=%{fugitive#statusline()}\ 
+set magic
+set statusline=%-.20{fugitive#statusline()}\ 
 set statusline+=%<%f\ %h%m%r%{rails#statusline()}%=\ %-(Line:\ %l/%L[%P]%)
 " set statusline+=%<%f\\ %h%m%r%{rails#statusline()}%=\\ %-(Line:\\ %l/%L[%P]\\ Col:\\ %c\\ Buf:\\ #%n\\ [%2.3b][0x%B]%)
 
