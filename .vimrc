@@ -150,6 +150,8 @@ map <space><space> <c-W>w<c-W>_
 map <space>= <c-W>=
 map + <c-W>+
 map - <c-W>-
+noremap ( <c-W><
+noremap ) <c-W>>
 map <space>c <c-w>c
 
 nnoremap <leader>Q :q!<CR>
