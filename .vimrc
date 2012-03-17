@@ -49,16 +49,37 @@ let g:neocomplcache_enable_underbar_completion = 1
 " Set minimum syntax keyword length.
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_lock_buffer_name_pattern = '\\\\*ku\\\\*'
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "<C-n>" : "<TAB>"
+
+au BufWinLeave ?* mkview
+au BufWinEnter ?* silent loadview
+
+" augroup vimrc
+" 	au BufReadPre * setlocal foldmethod=indent
+" 	au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
+" augroup END
+
+
+
+" SuperTab like snippets behavior. 
+imap <expr><TAB> pumvisible() ? "<c-n>" : "\<TAB>"
+imap <C-A><C-A>     <Plug>(neocomplcache_snippets_expand)
+"smap \     <Plug>(neocomplcache_snippets_expand)
+
+
+" inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
 " AutoComplPop like behaviour.
 let g:neocomplcache_enable_auto_select = 1
 
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+
+au BufNewFile,BufRead *.dust set filetype=html
+
+
 " indentation and tabs
-set smartindent
-set ts=2
-set shiftwidth=2
-set expandtab
+" set smartindent
+" set ts=2
+" set shiftwidth=2
+" set expandtab
 
 " TagList
 map <leader>tl :TlistToggle <cr>
@@ -222,12 +243,13 @@ command! -nargs=0 Lorem :normal iLorem ipsum dolor sit amet, consectetur
 " auto reload vimrc when saved
 au BufWritePost .vimrc source %
 set magic
-set statusline=%-.20{fugitive#statusline()}\ 
-set statusline+=%<%f\ %h%m%r%{rails#statusline()}%=\ %-(Line:\ %l/%L[%P]%)
+" set statusline=%-.20{fugitive#statusline()}\ 
+" set statusline+=%<%f\ %h%m%r%{rails#statusline()}%=\ %-(Line:\ %l/%L[%P]%)
+"
 " set statusline+=%<%f\\ %h%m%r%{rails#statusline()}%=\\ %-(Line:\\ %l/%L[%P]\\ Col:\\ %c\\ Buf:\\ #%n\\ [%2.3b][0x%B]%)
 
 " add in RVM display at the far right
-set statusline+=%{exists('g:loaded_rvm')?rvm#statusline():''}
+" set statusline+=%{exists('g:loaded_rvm')?rvm#statusline():''}
 
 " statusline=%<%f %h%m%r%{rails#statusline()}%= %(Line: %l/%L %P  Col: %c  Buf: %n %)
 
