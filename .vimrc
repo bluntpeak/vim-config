@@ -1,12 +1,10 @@
 " Switch on the good stuff and lose old vi compatibility mode
 set nocompatible
+syntax on
+filetype plugin indent on
 
 " Load up the pathogen stuff
-call pathogen#helptags()
-call pathogen#runtime_append_all_bundles()
-
-"turn off needless toolbar on gvim/mvim
-set guioptions-=T
+call pathogen#infect()
 
 " set the leader key
 let mapleader = ","
@@ -29,62 +27,6 @@ set hidden
 set hlsearch
 set incsearch
 
-syntax on
-
-filetype plugin indent on
-
-set visualbell
-
-" enables autocomplete
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\\\\*ku\\\\*'
-
-au BufWinLeave ?* mkview
-au BufWinEnter ?* silent loadview
-
-" augroup vimrc
-" 	au BufReadPre * setlocal foldmethod=indent
-" 	au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
-" augroup END
-
-
-
-" SuperTab like snippets behavior. 
-imap <expr><TAB> pumvisible() ? "<c-n>" : "\<TAB>"
-imap <C-A><C-A>     <Plug>(neocomplcache_snippets_expand)
-"smap \     <Plug>(neocomplcache_snippets_expand)
-
-
-" inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-" AutoComplPop like behaviour.
-let g:neocomplcache_enable_auto_select = 1
-
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-
-au BufNewFile,BufRead *.dust set filetype=html
-
-
-" indentation and tabs
-" set smartindent
-" set ts=2
-" set shiftwidth=2
-" set expandtab
-
-" TagList
-map <leader>tl :TlistToggle <cr>
-let Tlist_Use_Right_Window = 1
-
 " Set the color scheme
 colorscheme zaanta
 
@@ -93,11 +35,6 @@ set laststatus=2
 
 " keep some context round the top and bottom of the screen when moving
 set scrolloff=8
-
-" setup the autoclose plugin for ruby / rails by including the #{} for string
-" interpolation
-let g:AutoClosePairs = {'(': ')', '{': '}', '[': ']', '"': '"', "'": "'", '#{': '}'}
-let g:AutoCloseProtectedRegions = ["Character"] 
 
 " set smartcase up so Foo finds 'Foo' and 'foo' finds both 'foo' and 'Foo'
 set smartcase
@@ -129,12 +66,6 @@ imap <C-Z> <C-O>u
 " map for invoking FuzzyFinder in various modes
 map <silent> <Leader>/ :FufFile **/<CR>
 map <silent> <Leader>. :FufBuffer<CR>
-
-" map to toggle line wrap
-map <silent> <Leader>w :set wrap!<CR>
-
-" map to toggle spelling in local buffer
-nmap <silent> <Leader>s :setlocal spell! spelllang=en_gb<CR>
 
 " map for toggling search highlights
 map <silent> <leader>h :set hls!<CR>
@@ -181,14 +112,6 @@ nnoremap <leader>W :w!<CR>
 " <S-y> yanks to end of the line
 noremap Y y$
 
-" space / shift-space scroll down and up by page in normal mode
-" and also map Ctrl-A to scroll up a page as terminal cannot map Shift-Space
-" (bummer) but there you go
-noremap <C-a> <C-b>
-noremap <S-space> <C-b>
-" does nto work in iterm hence the C-a mapping above
-noremap <space>   <C-f>
-
 " map for underlining a header with + or -
 map <leader>= yypVr=
 map <leader>- yypVr-
@@ -207,64 +130,9 @@ map <S-Down> ]e
 " Use _ as a word-separator
 set iskeyword-=_
 
-"Add a new command to edit the .vimrc cos I am lazy like that
-command! Vv e ~/.vimrc
-
-" define :Lorem command to dump in a paragraph of lorem ipsum
-command! -nargs=0 Lorem :normal iLorem ipsum dolor sit amet, consectetur
-      \ adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      \ magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-      \ ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-      \ irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-      \ fugiat nulla pariatur.  Excepteur sint occaecat cupidatat non
-      \ proident, sunt in culpa qui officia deserunt mollit anim id est
-      \ laborum
-
-" Open the Ruby ApiDock page for the word under cursor
-" function! OpenRubyDoc(keyword)
-"   let url = 'http://railsapi.com/doc/ruby-v1.8/?q='.a:keyword
-"   call OpenInBrowser(url)
-" endfunction
-" noremap RB :call OpenRubyDoc(expand('<cword>'))<CR><CR>
-
-" Open the Rails ApiDock page for the word under cursor
-" function! OpenRailsDoc(keyword)
-"   if filereadable('config/application.rb')
-"     let url = 'http://railsapi.com/doc/rails-v3.0.3/?q='.a:keyword
-"   else
-"     let url =
-"     'http://railsapi.com/doc/rails-v2.3.8/?q='.a:keyword
-"   endif
-"   call OpenInBrowser(url)
-" endfunction
-" noremap RR :call
-" OpenRailsDoc(expand('<cword>'))<CR><CR>
-
-" auto reload vimrc when saved
-au BufWritePost .vimrc source %
-set magic
-" set statusline=%-.20{fugitive#statusline()}\ 
-" set statusline+=%<%f\ %h%m%r%{rails#statusline()}%=\ %-(Line:\ %l/%L[%P]%)
-"
-" set statusline+=%<%f\\ %h%m%r%{rails#statusline()}%=\\ %-(Line:\\ %l/%L[%P]\\ Col:\\ %c\\ Buf:\\ #%n\\ [%2.3b][0x%B]%)
-
-" add in RVM display at the far right
-" set statusline+=%{exists('g:loaded_rvm')?rvm#statusline():''}
-
-" statusline=%<%f %h%m%r%{rails#statusline()}%= %(Line: %l/%L %P  Col: %c  Buf: %n %)
-
 " Jump to the last position in the file on open
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
       \| exe "normal g'\"" | endif
-
-
-" word count
-" map <F8> g<C-g>
-
-
-" if has("linebreak")
-"   let &sbr = nr2char(8618).' '  " helps to spot wrapped lines
-" endif
 
 au InsertEnter * hi StatusLine term=reverse ctermbg=5 gui=undercurl guisp=Magenta
 au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
@@ -273,17 +141,28 @@ au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
 set wildmenu
 set wildmode=full
 
-map ;; :call RunCurrentSpec("-l " . <C-r>=line('.')<CR>)<CR>
-map ;' :call RunCurrentSpec("")<CR>
-map <leader>; :call RunSpecs("spec/cells spec/models spec/routing spec/requests spec/controllers")<CR>
-map <leader>' :call RunSpecs("spec/acceptance")<CR>
+" SuperTab like snippets behavior. 
+imap <expr><TAB> pumvisible() ? "<c-n>" : "\<TAB>"
+imap <C-A><C-A>     <Plug>(neocomplcache_snippets_expand)
 
-function! RunSpecs(args)
-  let cmd = ":! rspec " . a:args
-  execute cmd 
-endfunction
+" AutoComplPop like behaviour.
+let g:neocomplcache_enable_auto_select = 1
 
-function! RunCurrentSpec(args)
-  let cmd = ":! rspec " . "% " . a:args
-  execute cmd 
-endfunction
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+
+au BufNewFile,BufRead *.dust set filetype=html
+
+" enables autocomplete
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" Use underbar completion.
+let g:neocomplcache_enable_underbar_completion = 1
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\\\\*ku\\\\*'
