@@ -4,7 +4,11 @@ syntax on
 filetype plugin indent on
 
 " Load up the pathogen stuff
+call pathogen#helptags()
 call pathogen#infect()
+
+"turn off needless toolbar on gvim/mvim
+set guioptions-=T
 
 " set the leader key
 let mapleader = ","
@@ -27,8 +31,40 @@ set hidden
 set hlsearch
 set incsearch
 
+set visualbell
+
+
+au BufWinLeave ?* mkview
+au BufWinEnter ?* silent loadview
+
+let g:acp_enableAtStartup = 0
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplcache_auto_completion_start_length = 3
+let g:neocomplcache_disable_auto_complete = 0
+
+" SuperTab like snippets behavior. 
+" imap <expr><TAB> pumvisible() ? "<c-n>" : "\<TAB>"
+
+" inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+" AutoComplPop like behaviour.
+let g:neocomplcache_enable_auto_select = 1
+
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+
+au BufNewFile,BufRead *.dust set filetype=html
+
+
+" TagList
+map <leader>tl :TlistToggle <cr>
+let Tlist_Use_Right_Window = 1
+
 " Set the color scheme
-colorscheme zaanta
+colorscheme zaanta2
 
 " always show the status line
 set laststatus=2
@@ -60,12 +96,15 @@ map <Leader>v :vnew <C-R>=expand("%:p:h") . '/'<CR>
 " save hitting shift for command mode
 map ; :
 
-" map insert mode undo to good old C-z
-imap <C-Z> <C-O>u
-
 " map for invoking FuzzyFinder in various modes
 map <silent> <Leader>/ :FufFile **/<CR>
 map <silent> <Leader>. :FufBuffer<CR>
+
+" map to toggle line wrap
+map <silent> <Leader>w :set wrap!<CR>
+
+" map to toggle spelling in local buffer
+nmap <silent> <Leader>s :setlocal spell! spelllang=en_gb<CR>
 
 " map for toggling search highlights
 map <silent> <leader>h :set hls!<CR>
@@ -94,8 +133,6 @@ noremap <C-w>s <C-w>s<C-w>j
 " some neat mappings to handle split windows (stolen from Kris Kumler vim
 " config as shown in the following stack overflow 
 " http://stackoverflow.com/questions/164847/what-is-in-your-vimrc
-"
-" TODO: add some more <space>xxx window mappings - really like this map
 map <space> <c-W>w
 map <space>n <c-W>w
 map <space><space> <c-W>w<c-W>_
@@ -112,15 +149,17 @@ nnoremap <leader>W :w!<CR>
 " <S-y> yanks to end of the line
 noremap Y y$
 
+" space / shift-space scroll down and up by page in normal mode
+" and also map Ctrl-A to scroll up a page as terminal cannot map Shift-Space
+" (bummer) but there you go
+noremap <C-a> <C-b>
+noremap <S-space> <C-b>
+" does nto work in iterm hence the C-a mapping above
+noremap <space>   <C-f>
+
 " map for underlining a header with + or -
 map <leader>= yypVr=
 map <leader>- yypVr-
-
-" sortcut for newline below current position
-" would be nice to have shift <enter> work for newline above
-" but iterm and osx seems like it does nto work ... hey ho
-" ---- Uses tpope's vim-unimpaired plugin
-" map <enter> ]<Space>
 
 " use Shift Up / Down to move selected line up or Down
 " ---- Uses tpope's vim-unimparied plugin
@@ -130,9 +169,24 @@ map <S-Down> ]e
 " Use _ as a word-separator
 set iskeyword-=_
 
+set magic
+
+" set statusline=%-.20{fugitive#statusline()}\ 
+" set statusline+=%<%f\ %h%m%r%{rails#statusline()}%=\ %-(Line:\ %l/%L[%P]%)
+"
+" set statusline+=%<%f\\ %h%m%r%{rails#statusline()}%=\\ %-(Line:\\ %l/%L[%P]\\ Col:\\ %c\\ Buf:\\ #%n\\ [%2.3b][0x%B]%)
+
+" add in RVM display at the far right
+" set statusline+=%{exists('g:loaded_rvm')?rvm#statusline():''}
+
+" statusline=%<%f %h%m%r%{rails#statusline()}%= %(Line: %l/%L %P  Col: %c  Buf: %n %)
+
 " Jump to the last position in the file on open
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
       \| exe "normal g'\"" | endif
+
+" word count
+" map <F8> g<C-g>
 
 au InsertEnter * hi StatusLine term=reverse ctermbg=5 gui=undercurl guisp=Magenta
 au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
@@ -141,28 +195,3 @@ au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
 set wildmenu
 set wildmode=full
 
-" SuperTab like snippets behavior. 
-imap <expr><TAB> pumvisible() ? "<c-n>" : "\<TAB>"
-imap <C-A><C-A>     <Plug>(neocomplcache_snippets_expand)
-
-" AutoComplPop like behaviour.
-let g:neocomplcache_enable_auto_select = 1
-
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-
-au BufNewFile,BufRead *.dust set filetype=html
-
-" enables autocomplete
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\\\\*ku\\\\*'
