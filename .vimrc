@@ -33,28 +33,29 @@ set incsearch
 
 set visualbell
 
-
-au BufWinLeave ?* mkview
-au BufWinEnter ?* silent loadview
+" au BufWinLeave ?* mkview
+" au BufWinEnter ?* silent loadview
 
 let g:acp_enableAtStartup = 0
 let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
+" let g:neocomplcache_enable_smart_case = 1
+" let g:neocomplcache_enable_camel_case_completion = 1
+" let g:neocomplcache_enable_underbar_completion = 1
 let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+" let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplcache_auto_completion_start_length = 3
-let g:neocomplcache_disable_auto_complete = 0
+let g:neocomplcache_disable_auto_complete = 1
 
 " SuperTab like snippets behavior. 
-" imap <expr><TAB> pumvisible() ? "<c-n>" : "\<TAB>"
+imap <expr><TAB> pumvisible() ? "<c-n>" : "\<TAB>"
 
 " inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
 " AutoComplPop like behaviour.
-let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_enable_auto_select = 0
 
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 
 au BufNewFile,BufRead *.dust set filetype=html
 
@@ -90,8 +91,8 @@ set directory=/tmp
 "Some neat shortcuts to edit a new file from the same directory as the current
 "one, ripped without shame from r00k's vimrc on github
 map <Leader>e :e <C-R>=expand("%:p:h") . '/'<CR>
-map <Leader>s :split <C-R>=expand("%:p:h") . '/'<CR>
-map <Leader>v :vnew <C-R>=expand("%:p:h") . '/'<CR>
+map <Leader>es :split <C-R>=expand("%:p:h") . '/'<CR>
+map <Leader>ev :vnew <C-R>=expand("%:p:h") . '/'<CR>
 
 " save hitting shift for command mode
 map ; :
@@ -104,7 +105,7 @@ map <silent> <Leader>. :FufBuffer<CR>
 map <silent> <Leader>w :set wrap!<CR>
 
 " map to toggle spelling in local buffer
-nmap <silent> <Leader>s :setlocal spell! spelllang=en_gb<CR>
+nmap <silent> <Leader>sp :setlocal spell! spelllang=en_gb<CR>
 
 " map for toggling search highlights
 map <silent> <leader>h :set hls!<CR>
@@ -166,6 +167,12 @@ map <leader>- yypVr-
 map <S-Up> [e
 map <S-Down> ]e
 
+" maps for fugative
+noremap <leader>w :Gwrite<CR>
+noremap <leader>c :Gcommit<CR>
+noremap <leader>s :Gstatus<CR>
+noremap <leader>d :Gdiff<CR>
+
 " Use _ as a word-separator
 set iskeyword-=_
 
@@ -188,10 +195,19 @@ au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
 " word count
 " map <F8> g<C-g>
 
-au InsertEnter * hi StatusLine term=reverse ctermbg=5 gui=undercurl guisp=Magenta
-au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
+" au InsertEnter * hi StatusLine term=reverse ctermbg=5 gui=undercurl guisp=Magenta
+" au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
+
+autocmd BufWinLeave *.coffee mkview
+autocmd BufWinEnter *.coffee silent loadview
 
 " turn on menu completions in style
 set wildmenu
 set wildmode=full
 
+set tabstop=8
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+" au BufNewFile,BufReadPost *.coffee setl expandtab tabstop=8 softtabstop=4 shiftwidth=4
